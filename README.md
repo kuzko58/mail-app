@@ -54,11 +54,11 @@ yarn dev
 
 ```
 
-### Use the credentials to login
+### Use the credentials to login (With Docker)
 
 ```json
 {
-  "email": "jane@example.com",
-  "password": "password2"
+  "email": "john@example.com",
+  "password": "password1"
 }
 ```
