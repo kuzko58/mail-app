@@ -1,0 +1,34 @@
+services:
+  mail_app_api:
+    build:
+      context: .
+      target: final
+    depends_on:
+      - database
+    ports:
+      - '6500:6500'
+    environment:
+      NODE_ENV: local
+      PORT: 6500
+      DATABASE_URL: mongodb://mongodb:mongodb@database:27017/mail_app?authSource=admin
+      CLIENT_URL: http://localhost:6800
+    volumes:
+      - ./src:/home/app/src
+    restart: unless-stopped
+
+  database:
+    image: mongo:7.0
+    command: ['mongod', '--auth', '--quiet']
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodb
+      MONGO_INITDB_ROOT_PASSWORD: mongodb
+    ports:
+      - '27018:27017'
+    volumes:
+      - mongo_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+    driver: local
